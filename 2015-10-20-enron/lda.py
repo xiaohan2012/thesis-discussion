@@ -3,6 +3,9 @@ import gensim
 import cPickle as pkl
 
 
+N_TOPICS = 4
+N_ITER = 15
+
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
                     level=logging.INFO)
 
@@ -13,9 +16,6 @@ print(len(id2word))
 # load corpus iterator
 mm = gensim.corpora.MmCorpus('messages.mm')
 
-# mm = gensim.corpora.MmCorpus(bz2.BZ2File('wiki_en_tfidf.mm.bz2')) # use this if you compressed the TFIDF output
-
-N_TOPICS=4
 print(mm)
 
 lda = gensim.models.ldamodel.LdaModel(corpus=mm,
@@ -23,6 +23,6 @@ lda = gensim.models.ldamodel.LdaModel(corpus=mm,
                                       num_topics=N_TOPICS,
                                       update_every=1,
                                       chunksize=mm.num_docs,
-                                      passes=50)
+                                      passes=N_ITER)
 
-lda.print_topics(N_TOPICS)
+lda.print_topics(N_TOPICS, 20)

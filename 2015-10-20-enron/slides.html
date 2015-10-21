@@ -35,7 +35,8 @@ class: center, middle
 
 # Graph statistics
 
-- directed
+- [Source](http://bailando.sims.berkeley.edu/enron_email.html): from Berkeley
+- Directed
 - 133 unique senders
 - 1105 unique recipients
 - 1144 in total
@@ -51,28 +52,32 @@ class: center, middle
 
 ---
 
-# Topic modeling
+# Topic modeling: configuration
 
 - Using the 882 messages
-- Using the online LDA
-  - batch mode
-  - 10 iterations
+- Using the LDA
+  - 15 iterations
   - 4 topics
+- Removed low/high frequency words and stop words
 
 ---
 
-# Topic modeling
+# Topic modeling: result
 
+1. [Bush](http://www.democracynow.org/2006/5/26/enron_the_bush_connection)(a little vague): davis  **bush**  utilities  plants  utility  billion  **president**  county  companies  times  percent  san  deal  tuesday  news  dynegy  customers  federal  plant  crisis
+2. *Business related*: **ees**  **customers**  **jones**  **dow**  edison  million  companies  **plan**  copyright  bank  wholesale  ect  president  bush  rate  utility  services  demand  deal  system
+2. [Enrondata scandal](https://en.wikipedia.org/wiki/Enron_scandal): ect  image  iso  **enronxgate**  ees  order  markets  **ken**  draft  report  communications  **agency**  comments  joe  data  david  senate  **legislation**  susan  michael
+3. [California electricity crisis](https://en.wikipedia.org/wiki/California_electricity_crisis): **davis**  utilities  edison  **generators**  billion  **federal**  plants  million  **commission**  san  utility  **crisis**  **blackouts**  companies  electric  plan  governor  percent  pay  plant
 
-1. topic #0 (0.250): 0.018\*enron + 0.007\*ees + 0.006\*subject + 0.005\*cc + 0.005\*ect + 0.004\*j + 0.004\*market + 0.004\*steven + 0.004\*-\ + 0.003\*please
-2. topic #1 (0.250): 0.015\*power + 0.010\*state + 0.010\*california + 0.008\*energy + 0.007\*utilities + 0.007\*davis + 0.006\*electricity + 0.005\*n't + 0.005\*pg + 0.005\*e
-3. topic #2 (0.250): 0.011\*power + 0.010\*california + 0.009\*state + 0.008\*the\ + 0.007\*energy + 0.006\*to\ + 0.005\*electricity + 0.005\*market + 0.004\*gas + 0.004\*2001
-3. topic #3 (0.250): 0.015\*power + 0.013\*state + 0.010\*california + 0.010\*energy + 0.008\*electricity + 0.007\*= + 0.006\*davis + 0.005\*prices + 0.004\*e + 0.004\*price
+- Some terms explained in next slide
+---
 
+# Topic modeling: some terms
 
-
-- Not intuitive result
-- More preprocessing to be done
+- davis: Governor Gray Davis 
+- edison: Southern California Edison(affected incumbents)
+- ect: Enron Capital and Trade Resources, gas bank
+- ees:  Enron Energy Services
 
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Enron Dataset
+
+
+---
+
+# Overview
+
+1. Graph statistics
+2. Topic modeling result
+
+---
+
+# Graph statistics
+
+- directed
+- 133 unique senders
+- 1105 unique recipients
+- 1144 in total
+- 94 in common
+
+---
+
+
+# Graph statistics
+
+- 6267 edges(each corresponds to one message)
+- 882 unique messages(255636 for raw Enron dataset)
+
+---
+
+# Topic modeling
+
+- Using the 882 messages
+- Using the online LDA
+  - batch mode
+  - 10 iterations
+  - 4 topics
+
+---
+
+# Topic modeling
+
+
+1. topic #0 (0.250): 0.018\*enron + 0.007\*ees + 0.006\*subject + 0.005\*cc + 0.005\*ect + 0.004\*j + 0.004\*market + 0.004\*steven + 0.004\*-\ + 0.003\*please
+2. topic #1 (0.250): 0.015\*power + 0.010\*state + 0.010\*california + 0.008\*energy + 0.007\*utilities + 0.007\*davis + 0.006\*electricity + 0.005\*n't + 0.005\*pg + 0.005\*e
+3. topic #2 (0.250): 0.011\*power + 0.010\*california + 0.009\*state + 0.008\*the\ + 0.007\*energy + 0.006\*to\ + 0.005\*electricity + 0.005\*market + 0.004\*gas + 0.004\*2001
+3. topic #3 (0.250): 0.015\*power + 0.013\*state + 0.010\*california + 0.010\*energy + 0.008\*electricity + 0.007\*= + 0.006\*davis + 0.005\*prices + 0.004\*e + 0.004\*price
+
+
+
+- Not intuitive result
+- More preprocessing to be done
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+	<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  </body>
+</html>

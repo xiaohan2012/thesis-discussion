@@ -1,0 +1,48 @@
+import codecs
+import logging
+import nltk
+
+from gensim import corpora
+
+logger = logging.getLogger('CorpusEnron')
+
+
+def load_items_by_line(path):
+    with codecs.open(path, 'r', 'utf8') as f:
+        items = set([l.strip()
+                    for l in f])
+    return items
+
+
+class CorpusEnron(corpora.TextCorpus):
+    stoplist = load_items_by_line('lemur-stopwords.txt')
+
+    def get_texts(self):
+        """
+        Parse documents from the .cor file provided in the constructor. Lowercase
+        each document and ignore some stopwords.
+
+        .cor format: one document per line, words separated by whitespace.
+        """
+        with codecs.open(self.input) as f:
+            for i, doc in enumerate(f):
+                print(i)
+                yield [word for word in nltk.word_tokenize(doc.lower())
+                       if word not in CorpusEnron.stoplist]
+
+    def __len__(self):
+        """Define this so we can use `len(corpus)`"""
+        if 'length' not in self.__dict__:
+            logger.info("caching corpus size (calculating number of documents)")
+            self.length = sum(1 for doc in self.get_texts())
+        return self.length
+
+
+if __name__ == "__main__":
+    c = CorpusEnron('messages.txt')
+    corpora.MmCorpus.save_corpus('messages.mm', c)
+
+    id2token = {i: t
+                for t, i in c.dictionary.token2id.items()}
+    import cPickle as pkl
+    pkl.dump(id2token, open('id2token.pkl', 'w'))

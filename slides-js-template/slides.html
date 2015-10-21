@@ -28,96 +28,12 @@ class: center, middle
 
 # Overview
 
-1. Recap
-2. One approach
-3. Issues
-4. Adressing the issues
-5. Question
+1. 
+2. 
 
 ---
 
 # Notation
-
-*Dynamic graph with topics*: \\(G = (V, E, \beta) \\)
-
-$$ E = {(u_i, v_i, \alpha_i, t_i)} $$
-
-with $$ i = 1 \ldots M $$ such that \\(u_i, v_i \in V \\), \\(\alpha_i \in \mathbb{R}^{L}\\). \\( \beta \in \mathbb{R}^{L \times W} \\), where \\(W\\) is the vocabulary size for the topic model.
-
-An event: \\( e \subseteq E\\).
-
-Time span \\(t_1(e), t_2(e)\\) of \\(e\\): the minimum time span within which all interactions  in \\(e\\) happened.
-
----
-
-# Recap: problem formulation
-
-Given \\(G = (V, E, \beta)\\), a budget \\(A\\) on the time span for each event, find \\(K\\) events
-
-$$ e_i, i=1 \ldots K $$
-
-that maximizes
-
-$$ \sum\limits_{i=1 \ldots K} q(e_i) $$
-
-where \\(q(e_i)  \\) is some *quality function*.
-
-under the constraint
-
-$$ T(e) = t\_{2}(e\_i) - t\_{1}(e\_i) \le A $$
-
-and a set of other problem-specific constraints \\(\mathcal{C}\\)
-
----
-
-# Recap: one instantiation
-
-Goal: find densely-connected subgraph under *topical coherence* constraint.
-
-$$ q(e) = \frac{\vert E(V(e), \widetilde{V}(e)) \vert}{\sqrt{\vert V(e) \vert\vert \widetilde{V}(e)\vert}} $$
-
-\\(V(e)\\): vertices covered by \\(e\\), \\(\widetilde{V}(e)\\): vertices not covered by \\(e\\), \\(E(S, T)\\) edges going from \\(S\\) to \\(T\\).
-
-*Topic coherence* of \\(e\\):
-
-$$ coherence(e) = \frac{1}{\vert e \vert} \sum\limits_{(u_i, v_i, \alpha_i, t_i) \in e} KL(\alpha_e, \alpha_i) $$
-
-where  \\(KL(\alpha\_1, \alpha\_2)\\) is the KL-divergence and \\( \alpha\_e = \frac{1}{\vert e \vert} \sum\limits\_{(u\_i, v\_i, \alpha\_i, t\_i) \in e} \alpha\_i \\)
-
-Constraint
-
-$$ coherence(e_i) \le B $$
-
----
-
-# Algorithm
-
-
-Input: \\(G = (V, E, \beta)\\), \\(K\\), \\(A\\) and \\(B\\)
-
-Output: \\( \mathcal{F}\\): \\(K\\) events
-
-1. \\(\mathcal{F}^{'} \leftarrow \varnothing \\)
-2. For \\(G^{'} \in G^{'} \text{ is subgraph of } G, T(G) \le A\\) 
-   1. \\( DG = \text{find-dense-and-topically-coherent-subgraph}(G^{'}, B) \\)
-   2. \\(\mathcal{F}^{'} = \mathcal{F}^{'} \cup \\{DG\\}\\)
-3. \\(\mathcal{F} = \text{sort}(\mathcal{F}^{'}, q)[1:K] \\)
-
-
----
-
-
-# Problem
-
----
-
-# Adressing the problem
-
----
-
-# Question
-
----
 
 
     </textarea>

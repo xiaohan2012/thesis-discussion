@@ -4,7 +4,7 @@ import cPickle as pkl
 
 
 N_TOPICS = 4
-N_ITER = 15
+N_ITER = 50
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',
                     level=logging.INFO)
@@ -26,3 +26,5 @@ lda = gensim.models.ldamodel.LdaModel(corpus=mm,
                                       passes=N_ITER)
 
 lda.print_topics(N_TOPICS, 20)
+
+lda.save('/home/hxiao/code/lst_dag/model-4-50.lda')

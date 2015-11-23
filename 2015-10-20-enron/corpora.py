@@ -22,7 +22,9 @@ def load_items_by_line(path):
 class CorpusEnron(corpora.TextCorpus):
     stoplist = load_items_by_line('lemur-stopwords.txt')
     valid_token_regexp = re.compile('^[a-z]+$')
-    
+    MIN_WORD_LEN = 2
+    MAX_WORD_LEN = 15
+
     def get_texts(self):
         """
         Parse documents from the .cor file provided in the constructor. Lowercase
@@ -34,12 +36,12 @@ class CorpusEnron(corpora.TextCorpus):
             for i, doc in enumerate(f):
                 # if i==10:
                 #     break
-                print(i)
                 yield [
                     word for word in nltk.word_tokenize(doc.lower())
                     if (word not in CorpusEnron.stoplist and
                         CorpusEnron.valid_token_regexp.match(word) and
-                        len(word) > 2)
+                        len(word) > CorpusEnron.MIN_WORD_LEN and
+                        len(word) < CorpusEnron.MAX_WORD_LEN)
                 ]
 
     def __len__(self):

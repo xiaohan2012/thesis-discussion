@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+#  Summarizing Interaction Graph
+
+Han Xiao
+
+Polina Rozenshtein
+
+Aristides Gionis
+
+
+---
+
+# Motivation
+
+![](https://s3.amazonaws.com/live_object_images/29411/6.jpeg)
+
+---
+
+# Motivation
+
+to:
+
+![](https://camo.githubusercontent.com/46d82c30560862777d6eef9d32c6d7f79a4dd934/687474703a2f2f7777772e6a61736f6e6461766965732e636f6d2f776f7264636c6f75642f616d617a696e672e706e67)
+![](http://i0.wp.com/gleescape.com/wp-content/uploads/2013/01/tagul2.jpg)
+![](http://sites.cdnis.edu.hk/students/042694/files/2011/11/Screen-shot-2011-11-30-at-11.43.57-AM.png)
+
+
+Examples: email, facebook message, twiiter reweet, @
+
+---
+
+# Interaction Graph
+
+$$ G_s = (V_s, E_s) $$
+
+- \\(V_s\\): set of participants
+- \\(E_s=\{(u_i, v_i, \alpha_i, t_i) | i = 1 \ldots M\}\\): set of interactions, \\(\alpha_i\\): vector representation of the interaction
+
+
+- Event: defined to be a set of interactions(happen in short time period, topically coherent)
+- Goals: find \\(K\\) sets of interactions that best captures the whole graph
+
+<!--  What is a good event? -->
+
+---
+
+# Interaction Meta Graph
+
+An edge between \\(n_1\\) and \\(n_2\\) *if* \\(n_1.t < n_2.t\\) and:
+
+- \\(n_1.sender = n2.sender\\): broadcast
+- \\(n_1.receiver = n2.sender\\): relay/reply
+
+---
+
+# Interaction Meta Graph
+
+![](shared_images/meta-graph.png)
+
+Edge cost:
+
+\\(c(n_1, n_2) = d(n_1.\alpha, n_2.\alpha)\\)
+
+
+---
+
+# Why Interaction Meta Graph?
+
+Attemps to capture cause-effect relationship between interactions
+
+An event can be intuitively represented as tree(good for problem definition)
+
+---
+
+# Problem Formulation
+
+Given meta graph, \\(G=(V, E)\\)
+
+Find:
+
+1. \\( \mathcal{T}^{\*} \\): *the* optiomal rooted event for \\( v \in V \\)
+2. \\(K\\) best events among \\(\mathcal{T}^{*}\\)
+
+---
+
+# Optimal rooted tree
+
+
+given \\( G=(V, E, c) \\), \\(r \in V \\) and \\( U \in \mathbb{R} \\), 
+
+find a subtree \\( T=(W, D) \\) rooted at \\( r \\) that maximizes:
+
+$$ |W| $$
+
+s.t:
+
+$$ td(W) = \sum\limits_{e \in D} c(e) \le U $$
+
+---
+
+# Algorithm 
+
+Gogogo
+
+---
+
+# \\(K\\) best rooted events
+
+Given \\(G = (V, E)\\), 
+\\(\mathcal{T} = \{T^*(G, r, U) \vert r \in G.V \} \\),
+\\(K \in \mathbb{Z} \\),
+
+
+Find \\( argmax\_{\mathcal{T}^{'} \subseteq \mathcal{T}} | \bigcup\limits_{(W, D) \in \mathcal{T}^{'}} W | \\)
+
+Essentially, maximum \\(K\\) coverage problem
+
+---
+
+# Algorithm 
+
+- Greedy approach. 
+- Within a factor of \\(1 - \frac{1}{e}\\) of the optimal solution.
+
+---
+
+# Experiment
+
+- Enron: \\(\vert V \vert = 5815\\), \\(\vert E \vert = 567337\\)
+- Sampled 500 roots
+- Baselines: random/greedy growing
+- \\(U =0.5\\), time span = 1 months
+- \\(alpha\\) inferenced by LDA
+- distance function: 
+
+---
+
+# Result
+
+Top K events
+
+---
+
+# Prons/Cons
+
+---
+
+# Future
+
+1. More dataset: twitter retweet/@
+2. PCST for DAG
+
+
+
+
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+	<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  </body>
+</html>

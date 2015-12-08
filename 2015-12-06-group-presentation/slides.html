@@ -112,10 +112,10 @@ Edge cost:
 
 - Event defined as a tree
 
-Why:
+Why?
 
-- cause-effect relationship <!-- more intuitive and interpretable -->
-- event as tree is good <!--An event can be intuitively represented as tree(good for problem definition)-->
+<!-- cause-effect relationship  more intuitive and interpretable -->
+<!-- event as tree is good An event can be intuitively represented as tree(good for problem definition) -->
 
 ---
 
@@ -125,15 +125,24 @@ Given meta graph, \\(G=(V, E)\\)
 
 Solve
 
-1. Problem 1:  \\( \mathcal{T}^{\*} \\): *the* optiomal rooted event for \\( v \in V \\)
-2. Problem 2: \\(K\\) events among \\(\mathcal{T}^{*}\\) with maximum node coverage
+1. Problem 1:  find \\( \mathcal{T}^{\*} \\) the optiomal rooted event for \\( v \in V \\)
+2. Problem 2: select optimal \\(K\\) events among \\(\mathcal{T}^{*}\\) 
+
+---
+# Optimal event? 
+
+Optimal event, \\(T=(W, D)\\) should:
+
+- **Coverage**: maximize \\(|W|\\)
+- **Topical coherence**: edge cost sum \\(<= \\) some threshold
+- **Short duration**:  time\_span(T) <= some threshold
 
 ---
 
 # Problem 1: optimal rooted tree
 
 
-Given \\( G=(V, E, c) \\), \\(r \in V \\) and \\( U \in \mathbb{R} \\), 
+Given \\( G=(V, E, c) \\), \\(c: E \rightarrow \mathbb{R}\\), \\(r \in V \\) and \\( U \in \mathbb{R} \\), 
 
 find a subtree \\( T=(W, D) \\) rooted at \\( r \\) that maximizes:
 
@@ -150,6 +159,18 @@ $$ td(W) = \sum\limits_{e \in D} c(e) \le U $$
 # Algorithm: greedy growing tree
 
 ![](shared_images/greedy-growing-tree.png)
+
+---
+
+# Algorithm: Dijkstra + Dynamic Programming
+
+1. Turn DAG into tree through 
+2. Run DP(optimal)
+
+<!-- mention the DAG version DP, which is sub-optimal -->
+
+# 
+
 
 ---
 
@@ -190,30 +211,79 @@ Find
 - Sampled 500 roots
 - \\(U = 0.5\\)
 - time span: 1 months
+- cosine | euclidean
+
+---
+
+# Result: comparison(cosine)
+
+|        |   #1--- |   #2--- |   #3--- |   #4--- |   #5--- |   total--- |
+|--------|------|------|------|------|------|---------|
+| random |  105 |   99 |   92 |   82 |   71 |     449 |
+| dp     |  145 |  100 |   91 |   77 |   54 |     467 |
+| greedy |  282 |  243 |  206 |  157 |  105 |     992 |
+| dij+dp |  282 |  243 |  211 |  159 |  105 |     **999** |
+
+---
+
+# Result: dij+dp(cosine)
+
+|         |   #nodes | time                  | subject(root)                              | terms                                                                               |
+|---------|----------|-----------------------|--------------------------------------------|-------------------------------------------------------------------------------------|
+| **#1,** |      282 | 2001-03-21 2001-04-16 | Energy Issues                              | davis utilities billion million edison companies generators blackouts times federal |
+| **#2,** |      243 | 2001-09-06 2001-10-04 | FW: Summary of Sections to be marked up    | iso enronxgate draft markets data order vince http transmission report              |
+| **#3,** |      211 | 2001-07-06 2001-08-02 | UC/CSU press release                       | iso enronxgate draft markets data order vince http transmission report              |
+| **#4,** |      159 | 2001-10-04 2001-10-31 | RE: DRAFT Comments on Barton RTO Draft     | iso enronxgate draft markets data order transmission http vince report              |
+| **#5,** |      105 | 2001-04-12 2001-04-20 | Legislative Status Report Week Ending 4/20 | bush words president news times communications ken section tuesday lay              |
+
+---
+
+# Result: dp(cosine)
+
+|         |   #nodes | time                  | subject(root)                              | terms                                                                               |
+|---------|----------|-----------------------|--------------------------------------------|-------------------------------------------------------------------------------------|
+| **#1,** |      145 | 2001-03-21 2001-04-16 | Energy Issues                              | davis utilities billion million edison companies generators blackouts times federal |
+| **#2,** |      100 | 2001-04-12 2001-04-20 | Legislative Status Report Week Ending 4/20 | bush words president news times communications ken section tuesday lay              |
+| **#3,** |       91 | 2001-06-29 2001-07-25 | Re: Customers                              | iso enronxgate markets services bush order report http draft communications         |
+| **#4,** |       77 | 2001-09-06 2001-10-04 | RE: Chairman's Speech                      | iso enronxgate draft markets data order vince http transmission report              |
+| **#5,** |       54 | 2001-04-26 2001-05-24 | Re: part time/reduced hour employees       | iso enronxgate markets draft order data report http services susan                  |
+
+---
+
+# Result: comparison(euclidean)
+
+|        |   #1--- |   #2--- |   #3--- |   #4--- |   #5--- |   total--- |
+|--------|------|------|------|------|------|---------|
+| random |   73 |   40 |   32 |   24 |   27 |     176 |
+| dp     |  140 |  140 |   68 |   55 |   42 |     444 |
+| greedy |  158 |  143 |   94 |   93 |   56 |     **537** |
+| dij+dp |  139 |   87 |   87 |   85 |   55 |     453 |
 
 
 ---
 
-# Result: greedy
+# Result: greedy(euclidean)
 
-Top 5 events
-
-|                | #1                                                                                  | #2 | #3 | #4 | #5 |
-|----------------|-------------------------------------------------------------------------------------|----|----|----|----|
-| #nodes         | 166                                                                                 |    |    |    |    |
-| time           | 2001-3-21, 2001-3-23                                                                |    |    |    |    |
-| top subject(s) | Energy Issues                                                                       |    |    |    |    |
-| topics         | davis utilities billion million edison companies generators blackouts times federal |    |    |    |    |
+|         |   #nodes | time                  | subject(root)                                                   | terms                                                                               |
+|---------|----------|-----------------------|-----------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| **#1,** |      158 | 2001-03-21 2001-03-23 | Energy Issues                                                   | davis utilities billion million edison companies generators blackouts times federal |
+| **#2,** |      143 | 2001-07-06 2001-08-02 | RE: Update - Jeff Skilling Conference Call with John Q Anderson | iso enronxgate draft markets data order vince http transmission report              |
+| **#3,** |       94 | 2001-08-16 2001-09-12 | FW: DOE on Reliability                                          | iso enronxgate draft markets data order vince http transmission report              |
+| **#4,** |       93 | 2001-09-25 2001-10-19 | EPSA/EEI on Reliability                                         | iso enronxgate draft markets data order vince http transmission report              |
+| **#5,** |       56 | 2001-08-02 2001-08-24 | RE: Update - Jeff Skilling Conference Call with John Q Anderson | iso enronxgate draft markets data order vince http transmission report              |
 
 ---
 
-# Result: comparison
+# Result: dij+dp(euclidean)
 
-|        |  #1 | #2  | #3  | #4  | #5 |
-|--------|-----|-----|-----|-----|----|
-| greedy | 166 | 155 | 120 | 110 | 90 |
-| dp     | 144 | x   | x   | x   | x  |
-| random |  93 | x   | x   | x   | x  |
+|         |   #nodes | time                  | subject(root)                                                   | terms                                                                               |
+|---------|----------|-----------------------|-----------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| **#1,** |      139 | 2001-03-22 2001-03-23 | Energy Issues                                                   | davis utilities billion million edison companies generators blackouts times federal |
+| **#2,** |       87 | 2001-09-25 2001-10-18 | RE: Southern Co.'s Testimony                                    | iso enronxgate draft markets data order vince http transmission report              |
+| **#3,** |       87 | 2001-07-06 2001-08-02 | Re: Comments on Judge Wagner's Proposed Recommendation          | iso enronxgate draft markets data order vince http transmission report              |
+| **#4,** |       85 | 2001-09-06 2001-09-26 | FW: Confidential -- Comments on draft petition from UC attorney | iso enronxgate draft markets data order vince http transmission report              |
+| **#5,** |       55 | 2001-08-02 2001-08-24 | RE: Update - Jeff Skilling Conference Call with John Q Anderson | iso enronxgate draft markets data order vince http transmission report              |
+
 ---
 
 # Pros/Cons
@@ -224,20 +294,15 @@ Pros:
 
 Cons:
 
-- Whether tree captures the cause-effect relationship(why not event as DAG?)
-- More experiments(dataset, parameter) needed
-- More efficient algorithm of PCST for DAG
-- Better evaluation?
-
----
-
-# Future
-
-- More dataset: 
+- More datasets?
+  - letter network
   - twitter retweet/@
-  - letter communication network
-- PCST for DAG
-- Experiment with different parameter combinations
+- More parameter combination
+- PCST for **DAG**
+- Better evaluation
+- Better summarization
+- Why event as tree?
+
 
 
 

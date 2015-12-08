@@ -14,6 +14,11 @@
         font-weight: normal;
       }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+	 .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li { line-height: 2em; }
     </style>
   </head>
   <body>
@@ -40,12 +45,14 @@ Aristides Gionis
 
 # Motivation
 
-to:
+![](shared_images/interaction-graph-summarization-banner-choppped.png)
+
+<!--  to:
 
 ![](https://camo.githubusercontent.com/46d82c30560862777d6eef9d32c6d7f79a4dd934/687474703a2f2f7777772e6a61736f6e6461766965732e636f6d2f776f7264636c6f75642f616d617a696e672e706e67)
 ![](http://i0.wp.com/gleescape.com/wp-content/uploads/2013/01/tagul2.jpg)
 ![](http://sites.cdnis.edu.hk/students/042694/files/2011/11/Screen-shot-2011-11-30-at-11.43.57-AM.png)
-
+-->
 
 Examples: email, facebook message, twiiter reweet, @
 
@@ -56,22 +63,37 @@ Examples: email, facebook message, twiiter reweet, @
 $$ G_s = (V_s, E_s) $$
 
 - \\(V_s\\): set of participants
-- \\(E_s=\{(u_i, v_i, \alpha_i, t_i) | i = 1 \ldots M\}\\): set of interactions, \\(\alpha_i\\): vector representation of the interaction
+- \\(E_s= \\{(u_i, v_i, \alpha_i, t_i) | i = 1 \ldots M \\} \\): set of interactions
+- \\(\alpha_i\\): vector representation of the interaction
+
+---
+
+# Event
+
+- Event = a set of interactions/edges
+- Goal: select sets of interactions
+
+<!---
+Time: short period assumption
+- Topic: coherent
+-->
 
 
+<!--
 - Event: defined to be a set of interactions(happen in short time period, topically coherent)
 - Goals: find \\(K\\) sets of interactions that best captures the whole graph
+-->
 
 <!--  What is a good event? -->
 
 ---
 
-# Interaction Meta Graph
+# Interaction Meta Graph, \\(G\\)
 
-An edge between \\(n_1\\) and \\(n_2\\) *if* \\(n_1.t < n_2.t\\) and:
-
-- \\(n_1.sender = n2.sender\\): broadcast
-- \\(n_1.receiver = n2.sender\\): relay/reply
+- Edges in \\(G_s\\) become nodes in \\(G\\)
+- An directed edge from \\(n_1\\) to \\(n_2\\) *if* \\(n_1.t < n_2.t\\) and either of:
+  - \\(n_1.sender = n_2.sender\\)<!--: broadcast-->
+  - \\(n_1.receiver = n_2.sender\\)<!--: relay/reply-->
 
 ---
 
@@ -86,11 +108,14 @@ Edge cost:
 
 ---
 
-# Why Interaction Meta Graph?
+# Event
 
-Attemps to capture cause-effect relationship between interactions
+- Event defined as a tree
 
-An event can be intuitively represented as tree(good for problem definition)
+Why:
+
+- cause-effect relationship <!-- more intuitive and interpretable -->
+- event as tree is good <!--An event can be intuitively represented as tree(good for problem definition)-->
 
 ---
 
@@ -98,17 +123,17 @@ An event can be intuitively represented as tree(good for problem definition)
 
 Given meta graph, \\(G=(V, E)\\)
 
-Find:
+Solve
 
-1. \\( \mathcal{T}^{\*} \\): *the* optiomal rooted event for \\( v \in V \\)
-2. \\(K\\) best events among \\(\mathcal{T}^{*}\\)
+1. Problem 1:  \\( \mathcal{T}^{\*} \\): *the* optiomal rooted event for \\( v \in V \\)
+2. Problem 2: \\(K\\) events among \\(\mathcal{T}^{*}\\) with maximum node coverage
 
 ---
 
-# Optimal rooted tree
+# Problem 1: optimal rooted tree
 
 
-given \\( G=(V, E, c) \\), \\(r \in V \\) and \\( U \in \mathbb{R} \\), 
+Given \\( G=(V, E, c) \\), \\(r \in V \\) and \\( U \in \mathbb{R} \\), 
 
 find a subtree \\( T=(W, D) \\) rooted at \\( r \\) that maximizes:
 
@@ -118,24 +143,28 @@ s.t:
 
 $$ td(W) = \sum\limits_{e \in D} c(e) \le U $$
 
----
-
-# Algorithm 
-
-Gogogo
+.footnote[Essentially Price Collecting Steiner Tree problem(PCST)!]
 
 ---
 
-# \\(K\\) best rooted events
+# Algorithm: greedy growing tree
+
+![](shared_images/greedy-growing-tree.png)
+
+---
+
+# Problem 2: *K* rooted events with max coverage
 
 Given \\(G = (V, E)\\), 
-\\(\mathcal{T} = \{T^*(G, r, U) \vert r \in G.V \} \\),
+\\(\mathcal{T^\*} = \{T^\*(G, r, U) \vert r \in G.V \} \\),
 \\(K \in \mathbb{Z} \\),
 
 
-Find \\( argmax\_{\mathcal{T}^{'} \subseteq \mathcal{T}} | \bigcup\limits_{(W, D) \in \mathcal{T}^{'}} W | \\)
+Find
 
-Essentially, maximum \\(K\\) coverage problem
+ $$ argmax\_{\mathcal{T}^{'} \subseteq \mathcal{T^*}} | \bigcup\limits_{(W, D) \in \mathcal{T}^{'}} W | $$
+
+.footnote[Essentially Maximum *K* Coverage problem!]
 
 ---
 
@@ -149,29 +178,66 @@ Essentially, maximum \\(K\\) coverage problem
 # Experiment
 
 - Enron: \\(\vert V \vert = 5815\\), \\(\vert E \vert = 567337\\)
+- \\(\alpha\\) inferenced by LDA
+- Distance function: cosine, euclidean
+- Baselines: random/greedy growing, dynamic programming
+
+
+---
+
+# Experiment
+
 - Sampled 500 roots
-- Baselines: random/greedy growing
-- \\(U =0.5\\), time span = 1 months
-- \\(alpha\\) inferenced by LDA
-- distance function: 
+- \\(U = 0.5\\)
+- time span: 1 months
+
 
 ---
 
-# Result
+# Result: greedy
 
-Top K events
+Top 5 events
+
+|                | #1                                                                                  | #2 | #3 | #4 | #5 |
+|----------------|-------------------------------------------------------------------------------------|----|----|----|----|
+| #nodes         | 166                                                                                 |    |    |    |    |
+| time           | 2001-3-21, 2001-3-23                                                                |    |    |    |    |
+| top subject(s) | Energy Issues                                                                       |    |    |    |    |
+| topics         | davis utilities billion million edison companies generators blackouts times federal |    |    |    |    |
 
 ---
 
-# Prons/Cons
+# Result: comparison
+
+|        |  #1 | #2  | #3  | #4  | #5 |
+|--------|-----|-----|-----|-----|----|
+| greedy | 166 | 155 | 120 | 110 | 90 |
+| dp     | 144 | x   | x   | x   | x  |
+| random |  93 | x   | x   | x   | x  |
+---
+
+# Pros/Cons
+
+Pros:
+
+- Intuitive result
+
+Cons:
+
+- Whether tree captures the cause-effect relationship(why not event as DAG?)
+- More experiments(dataset, parameter) needed
+- More efficient algorithm of PCST for DAG
+- Better evaluation?
 
 ---
 
 # Future
 
-1. More dataset: twitter retweet/@
-2. PCST for DAG
-
+- More dataset: 
+  - twitter retweet/@
+  - letter communication network
+- PCST for DAG
+- Experiment with different parameter combinations
 
 
 
